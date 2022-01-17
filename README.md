@@ -37,16 +37,62 @@ class Gato {
 
 } 
 ```
+## Orden  de elementos en una clase (PIC)
+| Elements   |  Example  | Required? | Where does it go?
+ ---         |---        | :---:       | ---
+|1. ***P***ackage Declaration | package abc;     | NO | First line in the file
+|2. ***I***mport statements | import java.util.* | NO| Immediately after the package(if present)
+|3. ***C***lass Declaration | public class C     |**YES**| Immediately after the import(if any)
+|4. Field declaration | int value;         | NO | Any top-level element in a class (**can go in either order**)
+|5 .Method declaration | void method()     | NO | Any top-level element in a class (**can go in either order**)
+
 
 ## Diferencias de compilación y ejecución mediante comando
 
 |                             **javac (<=8)**                                                | **java(11>=)**
 |---                                                                                         |   ---      |
-|javac HelloWorld.java,<br>javac HelloWorld                                                  | java HelloWorld.java
+|javac HelloWorld.java,<br>javac HelloWorld Ó                                                | java HelloWorld.java
+|javac package\HelloWorld.java <br> javac package\subpackage\\*.java                          | java package.HelloWorld.java
 |Produce un archivo .class [Explicación](#javacjava)                                         | todo en memoria
-|Para programas con relacion a muchas clases [EJEMPLO](http://www.google.pe)                 | programa con una sola clase [ÉXITO](http://www.google.pe),`de lo contrario:` [ERROR](http://www.google.pe)
+|Para programas con relacion a muchas clases [EJEMPLO](https://github.com/gusallc/java-se-11/blob/main/imagenes/clase1/compilacion_ejecucion_javac_con_import_otro_package.png) | programa con una sola clase [ÉXITO](https://github.com/gusallc/java-se-11/blob/main/imagenes/clase1/javac_compilado_ejecutable_con_main_simple_exito.png ),`de lo contrario:` [ERROR](https://github.com/gusallc/java-se-11/blob/main/imagenes/clase1/java_ejecutable_con_otro_package_error.png)
 |puede importar código de cualquier <br> libreria java disponible :point_down: :point_down:  | Solo se puede importar el <br>código que viene con el jdk :point_down: :point_down:
 |`import custom.package.file.name`, <br>`import org.springframework.*`                       | `import java.*`, `import jdk.*`
+
+## Compilar y ejecutar desde directorio alternativo
+
+> Compilar en un Directorio alternativo:
+> javac coloca las clases compiladas en el mismo directorio del código fuente.
+> Pero existe -d para ubicar el .class(clase compilada) en otro directorio. <br>
+> `javac -d directory package/ClassA.java packageB/ClassB.java` [Ejemplo](https://github.com/gusallc/java-se-11/blob/main/imagenes/clase1/compilando_en_otro_directorio_con_-d.png)
+
+> Ejecutando desde un directorio alternativo
+> Para ejecutar el programa se especifica el classpath para que java sepa
+> donde encontrar las clases generadas con javac. Hay 3 opciones: <br>
+> `java -cp directory packageb.ClassB` [Ejemplo](https://github.com/gusallc/java-se-11/blob/main/imagenes/clase1/ejecucion_en_otro_directorio_con_-cp.png) <br>
+> `java -classpath directory packageb.ClassB` <br>
+> `java --class-path directory packageb.ClassB`
+
+## Compilando Archivos JAR
+
+- `jar --create --verbose --file myNewFile.jar `
+- jar -cvf {nameFile}.jar [-C rootDirectoryContainingFilesUsedToCreateJar] {files}]
+- jar -cvf myJar.jar -C .\clase1\ . 
+- jar -cvf myJar.jar -C .\clase1\ ZooMain.java MultiClass.java
+- jar -cvf myNewFile.jar .
+- Crear un archivo denominado classes.jar con dos archivos de clase: <br> jar --create --file classes.jar Foo.class Bar.class
+
+## Ejecutar Archivos JAR
+- Se puede especificar la ubicación de otros archivos usando un classpath.
+- Esto es útil cuando las clases están localizadas en archivos JAR.
+- Un archivo JAR es como un zip de clases java.
+- En WINDOWS:  <br>
+java -cp ".;C:\temp\algunaOtraCarpeta;c:\temp\myJar.jar" mypackage.MyClass <br>
+java -cp ".;C:\temp\directoryWithJars\\*" mypackage.MyClass -> `no incluye JARs que estén en una subdirectorio de directoryWithJars.`
+- En LINUX:  <br>
+java -cp ".:/temp/someOtherocation** :/temp\myJar.jar" mypackage.MyClass
+> El (.) indica que deseas incluir el directorio actual en el classpath. El resto del comando
+> indica buscar clases (o paquetes) en otra ubicación y dentro de myJar.jar
+> Windows usa (`;`) para separar partes del classpath, en otros S.O. se usa (`:`)
 
 ## Convenciones (CamelCase)
 
@@ -54,9 +100,10 @@ class Gato {
 >> TipoCliente <br> TipoDocumento  <br> Animal
 
 > Variables y Métodos
->> apellidoPaterno <br> buscarNombre <br> generarReporte 
+>> apellidoPaterno <br> buscarNombre <br> generarReporte
 
-> :warning: **PARA IMPORTS**,puede haber redundancía en los imports pero eso no es sinónimo **DE QUE NO COMPILA**.
+## Imports
+> :warning: **PARA LOS IMPORTS** ,puede haber redundancía pero eso no es sinónimo **DE QUE NO COMPILA**.
 > 
 > El "`.*`" :
 > 1. **No quiere decir que todas las clases se están cargando en memoria**: como si lo es en el "lenguage C" 
@@ -82,6 +129,7 @@ class Gato {
     - Compilar y ejecutar un programa java desde línea de comandos.
     - Crear e Importar packages.
     - Imports conflicto de nombres y Redundancia de Imports
+    - Compilar archivos JAR
 - Describir, usar objetos y clases
     - Definir la estructura de una clase main(ZooMain.java)
 
