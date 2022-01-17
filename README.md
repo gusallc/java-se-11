@@ -54,7 +54,17 @@ class Gato {
 >> TipoCliente <br> TipoDocumento  <br> Animal
 
 > Variables y Métodos
->> apellidoPaterno <br> buscarNombre <br> generarReporte
+>> apellidoPaterno <br> buscarNombre <br> generarReporte 
+
+> :warning: **PARA IMPORTS**,puede haber redundancía en los imports pero eso no es sinónimo **DE QUE NO COMPILA**.
+> 
+> El "`.*`" :
+> 1. **No quiere decir que todas las clases se están cargando en memoria**: como si lo es en el "lenguage C" 
+> 2. solo es válido para clases **más no métodos.**
+> 3. No hace busqueda recursiva, por lo tanto `no hará sub-busquedas` "package/sub-package/".
+>    1. java.*; -> java.util.Date: encuentra el package util, pero no la clase Date. 
+>    2. java.nio.*; -> java.nio.file.Files, encuentra package file, pero no la clase Files.
+>    3. java.nio.*; -> java.nio.file.Paths, encuentra package file, pero no la clase Paths.
 
 ---
 
@@ -71,8 +81,9 @@ class Gato {
     - Ejecutable Java con clase Main
     - Compilar y ejecutar un programa java desde línea de comandos.
     - Crear e Importar packages.
+    - Imports conflicto de nombres y Redundancia de Imports
 - Describir, usar objetos y clases
-    - Definir la estructura de una clase (ZooMain.java)
+    - Definir la estructura de una clase main(ZooMain.java)
 
 </details>
 
